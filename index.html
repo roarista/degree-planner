@@ -1,0 +1,78 @@
+<title>Four-Year Planner</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600&family=Libre+Franklin:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a registrar's worksheet. One column per semester; chips drag between them; checks recompute live. */
+:root{--bg:#F4F5F4;--surface:#FFFFFF;--fg:#22262B;--muted:#5A6068;--rule:#CBCFD2;--accent:#A64B00;--heat:#BF5700;--bad:#B3261E;--ok:#2E6B3A;
+--display:"Zilla Slab",Rockwell,Georgia,serif;--body:"Libre Franklin","Helvetica Neue",Arial,sans-serif;--mono:"IBM Plex Mono",Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181C;--surface:#1E2227;--fg:#E8E9EA;--muted:#A3A9B0;--rule:#3A4047;--accent:#F0954F;--heat:#C8641A;--bad:#F2867E;--ok:#7CC48A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#15181C;--surface:#1E2227;--fg:#E8E9EA;--muted:#A3A9B0;--rule:#3A4047;--accent:#F0954F;--heat:#C8641A;--bad:#F2867E;--ok:#7CC48A;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 56px}
+main{max-width:1180px;margin-inline:auto;display:grid;gap:24px}main>*{min-width:0}
+h1,h2{font-family:var(--display);font-weight:600;margin:0;line-height:1.15;text-wrap:balance}h1{font-size:1.9rem}h2{font-size:1.15rem}
+.sub{color:var(--muted);margin:4px 0 0;max-width:70ch}
+.lab{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button{font:600 .88rem var(--body);color:var(--fg);background:var(--surface);border:1px solid var(--rule);border-radius:3px;padding:8px 12px;cursor:pointer}
+button:hover{border-color:var(--accent)}:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.board{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;align-items:start}
+.term{background:var(--surface);border:1px solid var(--rule);border-radius:3px;padding:10px;min-height:140px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.term.over{border-color:var(--accent);box-shadow:inset 0 0 0 2px var(--accent)}
+.term.pool{background:transparent;border-style:dashed}
+.thead{display:flex;justify-content:space-between;gap:6px;align-items:baseline}.thead b{font:600 1rem var(--display)}
+.tot{font:400 .76rem var(--mono);color:var(--muted)}.warn{color:var(--bad);font:500 .76rem var(--mono)}
+.chip{border:1px solid var(--rule);border-radius:3px;padding:6px 8px;cursor:grab;background:color-mix(in srgb,var(--heat) calc(var(--d)*6%),var(--surface));min-height:calc(var(--h)*26px);display:flex;flex-direction:column;gap:1px;user-select:none}
+.chip.sel{outline:2px solid var(--accent)}.chip.badp{border-color:var(--bad);border-width:2px}
+.chip .top{display:flex;justify-content:space-between;gap:6px}.code{font:500 .86rem var(--mono)}.d{font:400 .74rem var(--mono)}
+.chip small{font-size:.76rem;line-height:1.3}.chip em{font-style:normal;font-size:.7rem;color:var(--bad)}
+.checks{display:grid;gap:4px;margin:0;padding:0;list-style:none}.checks li{font-size:.9rem}.checks .x{color:var(--bad)}.checks .v{color:var(--ok)}
+textarea{width:100%;box-sizing:border-box;min-height:140px;font:.8rem var(--mono);background:var(--surface);color:var(--fg);border:1px solid var(--rule);border-radius:3px;padding:8px}
+.hint{font-size:.85rem;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.chip{transition:transform .1s}.chip:active{transform:scale(.98)}}
+</style>
+<main>
+<header>
+<span class="lab" id="who"></span>
+<h1 id="ttl">Four-Year Planner</h1>
+<p class="sub" id="note"></p>
+</header>
+<div class="bar"><button type="button" id="copy">Copy plan for my agent</button><button type="button" id="reset">Reset to saved plan</button><span class="hint">Drag a class to another semester. On a phone, tap a class, then tap a semester.</span></div>
+<section><div class="board" id="board"></div></section>
+<section><h2>Checks</h2><ul class="checks" id="checks"></ul></section>
+<details><summary>Plan data (paste a new plan here)</summary><textarea id="json" aria-label="Plan JSON"></textarea><div class="bar"><button type="button" id="load">Load this plan</button><span class="hint" id="msg"></span></div></details>
+</main>
+<script type="application/json" id="plan-data">{"id": "example-1", "student": "Example student \u00b7 B S Advertising", "title": "Example Four-Year Plan", "note": "Example data. Your agent replaces this with your real plan.", "rules": {"hoursLeft": 12, "hard": 6, "maxHardPerTerm": 1, "maxHours": 15}, "classes": {"A": {"code": "ADV 344K", "name": "Research", "hours": 3, "diff": 6.5}, "B": {"code": "ADV 370J", "name": "Integrated Comm Mgmt", "hours": 3, "diff": 3, "prereqs": ["A"]}, "C": {"code": "ADV 373", "name": "Campaigns", "hours": 3, "diff": 3, "prereqs": ["B"]}, "D": {"code": "ADV 361", "name": "Creativity in AI", "hours": 3, "diff": 2.5}}, "terms": [{"term": "Fall 2027", "classes": ["A", "D"]}, {"term": "Spring 2028", "classes": ["B"]}, {"term": "Fall 2028", "classes": ["C"]}, {"term": "Not taking", "pool": true, "classes": []}]}</script>
+<script>
+const $=id=>document.getElementById(id);const KEY='planner-v1';
+const SAVED=JSON.parse($('plan-data').textContent);let P;
+try{P=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!P||P.id!==SAVED.id)P=structuredClone(SAVED);
+let sel=null;
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(P))}catch(e){}};
+const C=()=>P.classes;
+const where=k=>P.terms.findIndex(t=>t.classes.includes(k));
+function checks(){const out=[],bad=new Set();
+ P.terms.forEach((t,i)=>{const h=t.classes.reduce((s,k)=>s+C()[k].hours,0);t._h=h;const hard=t.classes.filter(k=>C()[k].diff>=(P.rules.hard??6));t._hard=hard.length;
+  if(P.rules.maxHardPerTerm!=null&&hard.length>P.rules.maxHardPerTerm)out.push(['x',`${t.term}: ${hard.length} hard classes (${hard.map(k=>C()[k].code).join(', ')})`]);
+  if(P.rules.maxHours&&h>P.rules.maxHours)out.push(['x',`${t.term}: ${h} h is over ${P.rules.maxHours}`]);});
+ for(const[k,c]of Object.entries(C())){const w=where(k);if(w<0)continue;for(const r of c.prereqs||[]){const wr=where(r);if(wr<0||wr>=w){bad.add(k);out.push(['x',`${c.code} needs ${C()[r].code} in an earlier semester`])}}
+  if(c.only&&!c.only.some(s=>P.terms[w].term.startsWith(s))){bad.add(k);out.push(['x',`${c.code} is usually offered only in ${c.only.join(' or ')}`])}}
+ const tot=P.terms.filter(t=>!t.pool).reduce((s,t)=>s+t._h,0);out.push([tot>=P.rules.hoursLeft?'v':'x',`${tot} of ${P.rules.hoursLeft} hours left are placed`]);
+ if(!out.some(o=>o[0]==='x'))out.push(['v','Prerequisites in order, at most '+P.rules.maxHardPerTerm+' hard class per semester']);
+ return{out,bad}}
+function render(){const{out,bad}=checks();$('who').textContent=P.student||'';$('ttl').textContent=P.title||'Four-Year Planner';$('note').textContent=P.note||'';
+ $('board').innerHTML=P.terms.map((t,i)=>`<div class="term${t.pool?' pool':''}" data-i="${i}"><div class="thead"><b>${t.term}</b><span class="tot">${t._h} h${t.done?' · done':''}</span></div>${!t.pool&&P.rules.maxHardPerTerm!=null&&t._hard>P.rules.maxHardPerTerm?'<span class="warn">too many hard classes</span>':''}${t.classes.map(k=>{const c=C()[k];return `<div class="chip${sel===k?' sel':''}${bad.has(k)?' badp':''}" draggable="true" data-k="${k}" tabindex="0" style="--h:${c.hours};--d:${c.diff}"><div class="top"><span class="code">${c.code}</span><span class="d">${c.hours} h · ${c.diff}/10</span></div><small>${c.name}</small>${c.note?`<small class="hint">${c.note}</small>`:''}</div>`}).join('')}</div>`).join('');
+ $('checks').innerHTML=out.map(([s,m])=>`<li class="${s}">${s==='v'?'✓':'✗'} ${m}</li>`).join('');
+ $('json').value=JSON.stringify(P,(k,v)=>k.startsWith('_')?undefined:v,1)}
+function move(k,i){P.terms.forEach(t=>t.classes=t.classes.filter(x=>x!==k));P.terms[i].classes.push(k);sel=null;save();render()}
+const b=$('board');
+b.addEventListener('dragstart',e=>{const c=e.target.closest('.chip');if(c)e.dataTransfer.setData('text/plain',c.dataset.k)});
+b.addEventListener('dragover',e=>{const t=e.target.closest('.term');if(t){e.preventDefault();t.classList.add('over')}});
+b.addEventListener('dragleave',e=>{const t=e.target.closest('.term');if(t)t.classList.remove('over')});
+b.addEventListener('drop',e=>{const t=e.target.closest('.term');if(t){e.preventDefault();move(e.dataTransfer.getData('text/plain'),+t.dataset.i)}});
+b.addEventListener('click',e=>{const c=e.target.closest('.chip');if(c){sel=sel===c.dataset.k?null:c.dataset.k;render();return}const t=e.target.closest('.term');if(t&&sel)move(sel,+t.dataset.i)});
+$('copy').onclick=()=>{const s=$('json').value;navigator.clipboard.writeText(s).then(()=>{$('copy').textContent='Copied'},()=>{document.querySelector('details').open=true;$('json').select();$('copy').textContent='Select and copy the text below'})};
+$('reset').onclick=()=>{P=structuredClone(SAVED);save();render()};
+$('load').onclick=()=>{try{P=JSON.parse($('json').value);save();render();$('msg').textContent='Loaded.'}catch(e){$('msg').textContent='That text is not valid plan JSON. Check for a missing bracket or comma.'}};
+render();
+</script>

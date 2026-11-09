@@ -1,0 +1,70 @@
+{
+ "id": "example-1",
+ "student": "Example student \u00b7 B S Advertising",
+ "title": "Example Four-Year Plan",
+ "note": "Example data. Your agent replaces this with your real plan.",
+ "rules": {
+  "hoursLeft": 12,
+  "hard": 6,
+  "maxHardPerTerm": 1,
+  "maxHours": 15
+ },
+ "classes": {
+  "A": {
+   "code": "ADV 344K",
+   "name": "Research",
+   "hours": 3,
+   "diff": 6.5
+  },
+  "B": {
+   "code": "ADV 370J",
+   "name": "Integrated Comm Mgmt",
+   "hours": 3,
+   "diff": 3,
+   "prereqs": [
+    "A"
+   ]
+  },
+  "C": {
+   "code": "ADV 373",
+   "name": "Campaigns",
+   "hours": 3,
+   "diff": 3,
+   "prereqs": [
+    "B"
+   ]
+  },
+  "D": {
+   "code": "ADV 361",
+   "name": "Creativity in AI",
+   "hours": 3,
+   "diff": 2.5
+  }
+ },
+ "terms": [
+  {
+   "term": "Fall 2027",
+   "classes": [
+    "A",
+    "D"
+   ]
+  },
+  {
+   "term": "Spring 2028",
+   "classes": [
+    "B"
+   ]
+  },
+  {
+   "term": "Fall 2028",
+   "classes": [
+    "C"
+   ]
+  },
+  {
+   "term": "Not taking",
+   "pool": true,
+   "classes": []
+  }
+ ]
+}
