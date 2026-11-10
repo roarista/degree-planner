@@ -29,6 +29,12 @@ The student signs in to UT themselves. **Never type a password, never click Regi
 - No data → show "?". Never invent a number (a "1/10" on a class with no data is a lie).
 - Difficulty 1–10 = mix of (100 − A-range %) and RMP difficulty; prefer the instructor's own history over the course average.
 
+### One score per class: `scripts/difficulty.py`
+For each candidate (course + professor): `python3 scripts/difficulty.py grade_distributions.db DEPT NUM "Last" --profile me.json --info class.json`.
+- Write `me.json` from the interview: how they do on tests (strong/average/weak), what they like/dislike (group, papers, reading, attendance, tests, online, busywork, 8am, friday).
+- Write `class.json` from the course schedule + syllabus (Canvas syllabus, professor site, past syllabi online): mode (in person/online/hybrid/async), days, time, how many exams, exam weight, where exams are taken (in person, Canvas, Honorlock), main assignments.
+- Report the score with its breakdown: A%/A-%/GPA for this professor vs the course, RMP difficulty for this class vs all classes, what reviews say about format, and each personal adjustment.
+
 ## Step 3b — Classes they'd like
 Ask their interests (e.g. AI, sports, film, business, music) and what they disliked before. Then `python3 scripts/find.py grade_distributions.db "ai,sport,film" --upper` lists matching courses, highest A-range first. Keep only ones that count for a requirement or elective slot and are offered next term (check the course schedule); give each a one-line "why you'd like it" + A% + RMP.
 Verdict per class: **Take / Maybe / Avoid**, with the reason (A%, RMP difficulty, review themes, fit with interests and schedule).

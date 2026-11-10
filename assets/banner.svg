@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="1200" height="360" role="img" aria-label="degree-planner: plan college with grades, reviews and your agent">
+<rect width="1200" height="360" fill="#BF5700"/>
+<rect y="300" width="1200" height="60" fill="#9A4600"/>
+<!-- hand sign: index + pinky up -->
+<g transform="translate(70 40)" fill="#FFF8F0" stroke="#7A3700" stroke-width="5" stroke-linejoin="round">
+ <rect x="20" y="0" width="34" height="130" rx="17"/>
+ <rect x="128" y="10" width="32" height="120" rx="16"/>
+ <rect x="18" y="110" width="146" height="130" rx="40"/>
+ <path d="M58 118 q0-22 22-22 q22 0 22 22 M100 118 q0-20 20-20 q20 0 20 20" fill="none"/>
+ <rect x="40" y="150" width="96" height="30" rx="15"/>
+</g>
+<!-- notebook -->
+<g transform="translate(300 60)">
+ <rect width="190" height="230" rx="10" fill="#FFF8F0" stroke="#7A3700" stroke-width="5"/>
+ <g fill="#7A3700"><circle cx="0" cy="40" r="9"/><circle cx="0" cy="90" r="9"/><circle cx="0" cy="140" r="9"/><circle cx="0" cy="190" r="9"/></g>
+ <g stroke="#E2C4A6" stroke-width="4"><line x1="30" y1="60" x2="165" y2="60"/><line x1="30" y1="95" x2="165" y2="95"/><line x1="30" y1="130" x2="165" y2="130"/><line x1="30" y1="165" x2="165" y2="165"/><line x1="30" y1="200" x2="120" y2="200"/></g>
+ <text x="30" y="45" font-family="Georgia,serif" font-size="17" fill="#7A3700" font-weight="700">FALL · SPRING</text>
+ <path d="M34 120 l10 10 20-22 M34 155 l10 10 20-22" stroke="#2E6B3A" stroke-width="6" fill="none"/>
+</g>
+<!-- rating card -->
+<g transform="translate(530 90)">
+ <rect width="200" height="170" rx="14" fill="#FFF8F0" stroke="#7A3700" stroke-width="5"/>
+ <text x="100" y="78" text-anchor="middle" font-family="Georgia,serif" font-size="64" font-weight="700" fill="#22262B">4.2</text>
+ <g fill="#F2A900" transform="translate(28 100)"><path id="s" d="M14 0l4.3 9 9.7 1.2-7.2 6.7 1.9 9.6L14 21.7 5.3 26.5l1.9-9.6L0 10.2 9.7 9z"/><use href="#s" x="30"/><use href="#s" x="60"/><use href="#s" x="90"/><use href="#s" x="120" fill="#E2C4A6"/></g>
+ <text x="100" y="152" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="17" fill="#5A6068">difficulty 2.4 · A 67%</text>
+</g>
+<text x="770" y="160" font-family="Georgia,serif" font-size="58" font-weight="700" fill="#FFFFFF">degree-planner</text>
+<text x="772" y="205" font-family="Helvetica,Arial,sans-serif" font-size="22" fill="#FFF1E4">grades · reviews · your agent</text>
+<text x="772" y="236" font-family="Helvetica,Arial,sans-serif" font-size="22" fill="#FFF1E4">4-year plan → exact sections</text>
+<text x="40" y="340" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#FFE3CC">Built at UT Austin · MIT License · not affiliated with UT or RateMyProfessors</text>
+</svg>
