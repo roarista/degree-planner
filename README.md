@@ -9,4 +9,6 @@ Plan the rest of college with your AI agent. Give it your degree audit, the cour
 
 Built at UT Austin. Other schools: change the audit/schedule URLs in AGENT.md and the school id in `rmp.py`.
 
+Quick start (friend's computer): `git clone <this repo> && cd degree-planner && claude` then say "help me plan my schedule". The agent follows AGENT.md: it asks for your IDA, your major/minor, then builds a 4-year plan and a registration list with unique numbers and backups.
+
 Roadmap: MCP server so the agent reads your moves directly instead of copy/paste.
