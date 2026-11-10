@@ -38,4 +38,4 @@ Grade data: the open-source `grade_distributions.db` from [UT Registration Plus]
 Change the audit/schedule URLs in `AGENT.md`, `--school <RMP id>` in the scripts, and `"school": {"color","logo"}` in your plan.
 
 ## License
-MIT. Not affiliated with The University of Texas at Austin or RateMyProfessors. "Hook 'em" hand drawn from scratch; no official logos.
+MIT. Not affiliated with The University of Texas at Austin or RateMyProfessors. Hand icon: [Twemoji](https://github.com/twitter/twemoji) 1f918, CC-BY 4.0, recolored. No official logos.
