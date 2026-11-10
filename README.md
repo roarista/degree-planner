@@ -5,7 +5,7 @@ Plan the rest of college with your AI agent. Give it your degree audit, the cour
 - `index.html` the planner. One file, no build, no server. Open it locally or on GitHub Pages.
 - `AGENT.md` what your agent should do (paste it into Claude Code / Codex, or point the agent at it).
 - `plan.example.json` the plan format.
-- `scripts/grades.py`, `scripts/rmp.py` difficulty data: grade distributions and RateMyProfessors.
+- `scripts/grades.py` A% per professor · `scripts/rmp.py` RateMyProfessors ratings + reviews · `scripts/find.py` classes matching your interests, easiest first · `scripts/export.py` plan to Markdown/CSV/Word/PowerPoint (Google Docs/Sheets/Slides).
 
 Built at UT Austin. Other schools: change the audit/schedule URLs in AGENT.md and the school id in `rmp.py`.
 

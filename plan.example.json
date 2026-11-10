@@ -1,4 +1,9 @@
 {
+ "school": {
+  "name": "UT Austin",
+  "color": "#BF5700",
+  "logo": "longhorn"
+ },
  "id": "example-1",
  "student": "Example student \u00b7 B S Advertising",
  "title": "Example Four-Year Plan",

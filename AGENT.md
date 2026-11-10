@@ -25,9 +25,13 @@ The student signs in to UT themselves. **Never type a password, never click Regi
 
 ## Step 3 — Difficulty data (never guess)
 - Grade distributions: download UT Registration Plus's open-source `grade_distributions.db` (github.com/Longhorn-Developers/UT-Registration-Plus, `src/assets/database/`). Then `python3 scripts/grades.py grade_distributions.db "ECO" "330T"` → A-range % per instructor.
-- RateMyProfessors: `python3 scripts/rmp.py "<Last name>"` → quality, difficulty, would-take-again. Strip trailing spaces; check department so you don't match a different person with the same last name.
+- RateMyProfessors: `python3 scripts/rmp.py "<Last name>" --reviews 8` → quality, difficulty, would-take-again, top tags and the newest reviews (class, grade, comment). Read the reviews: summarize workload, exam style, attendance, extra credit, and anything the student said they hate (e.g. group projects, 8 AM). Strip trailing spaces; check department so you don't match a different person with the same last name.
 - No data → show "?". Never invent a number (a "1/10" on a class with no data is a lie).
 - Difficulty 1–10 = mix of (100 − A-range %) and RMP difficulty; prefer the instructor's own history over the course average.
+
+## Step 3b — Classes they'd like
+Ask their interests (e.g. AI, sports, film, business, music) and what they disliked before. Then `python3 scripts/find.py grade_distributions.db "ai,sport,film" --upper` lists matching courses, highest A-range first. Keep only ones that count for a requirement or elective slot and are offered next term (check the course schedule); give each a one-line "why you'd like it" + A% + RMP.
+Verdict per class: **Take / Maybe / Avoid**, with the reason (A%, RMP difficulty, review themes, fit with interests and schedule).
 
 ## Step 4 — Next semester, exact sections
 Course schedule: `https://utdirect.utexas.edu/apps/registrar/course_schedule/<ccyys>/results/?ccyys=<ccyys>&search_type_main=COURSE&fos_cn=<DEPT>&course_number=<NUM>` (ccyys: year + 2 spring / 6 summer / 9 fall, e.g. 20272 = Spring 2027). Detail page: `/<ccyys>/<unique>/`.
@@ -43,6 +47,8 @@ One HTML page (no PNGs), with:
 4. **Second path** schedule if the student is waiting on an admission decision.
 5. Four-year plan for each path, with hours per term and difficulty per class.
 Name classes by course code and name, not by professor (professor only to tell sections apart).
+Other formats, whatever the student prefers: `python3 scripts/export.py plan.json md|csv|docx|pptx` (Markdown for Google Docs/Notion, CSV for Sheets, .docx for Google Docs/Word, .pptx for Google Slides/PowerPoint; docx/pptx need `pip install python-docx python-pptx`). Upload to Google Drive and choose "Open with Google Docs/Slides". If your agent has a Google Drive/Docs tool, create the doc directly.
+School branding: `plan.json` → `"school": {"name": "UT Austin", "color": "#BF5700", "logo": "longhorn"}`; logo can be an emoji or an image URL for other schools.
 Optional: the student can add sections in the UT Registration Plus extension to see the week; the extension crosses out conflicts.
 
 ## Step 6 — Iterate
